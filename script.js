@@ -117,5 +117,23 @@ function updateLeaderboard() {
         row.insertCell(1).innerText = player.score;
     });
 }
+let leaderboard = JSON.parse(localStorage.getItem("leaderboard")) || [];
 
+function savePlayer(name, score) {
+    leaderboard.push({ name, score });
+    localStorage.setItem("leaderboard", JSON.stringify(leaderboard));
+}
+function updateLeaderboard() {
+    let table = document.getElementById("leaderboard-table");
+    table.innerHTML = "";  // מנקה את הטבלה לפני שמעדכנים
+    leaderboard.sort((a, b) => b.score - a.score); // ממיין לפי ניקוד
+
+    leaderboard.forEach(player => {
+        let row = table.insertRow();
+        let nameCell = row.insertCell(0);
+        let scoreCell = row.insertCell(1);
+        nameCell.textContent = player.name;
+        scoreCell.textContent = player.score;
+    });
+}
 updateLeaderboard();
